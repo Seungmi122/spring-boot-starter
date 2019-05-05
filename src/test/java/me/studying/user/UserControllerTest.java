@@ -13,6 +13,7 @@ import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -38,5 +39,14 @@ public class UserControllerTest {
                 .content(userJson))
             .andExpect(jsonPath("$.username").value("mimi"))
             .andExpect(jsonPath("$.password").value("123123"));
+    }
+
+
+    @Test
+    public void bye() throws Exception {
+        mockMvc.perform(get("/bye"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$._links.self").exists());
     }
 }
